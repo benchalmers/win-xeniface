@@ -453,6 +453,8 @@ static BOOL maybeReboot(void *ctx)
                down instead of EWX_POWEROFF. */
         /* Similar problem on XP. Shutdown/Reboot will hang until the Welcome
         screen screensaver is dismissed by the guest */
+            XenstoreRemove("control/shutdown");
+
 #pragma warning (disable : 28159)
             res = ExitWindowsEx((type == XShutdownReboot ? 
                                     EWX_REBOOT : 
@@ -465,15 +467,11 @@ static BOOL maybeReboot(void *ctx)
                                 SHTDN_REASON_FLAG_PLANNED);
 #pragma warning (default: 28159)
             if (!res) {
-                PrintError("ExitWindowsEx");
-                return false;
-            }
-            else
-            {
-                if (XenstoreRemove("control/shutdown"))
-                    return false;
+                PrintError("ExitWindowsEx Failed");
             }
         } else {
+            if (XenstoreRemove("control/shutdown"))
+                return false;
 #pragma warning (disable : 28159)
             res = InitiateSystemShutdownEx(
                 NULL,
@@ -486,40 +484,31 @@ static BOOL maybeReboot(void *ctx)
                 SHTDN_REASON_FLAG_PLANNED);
 #pragma warning (default: 28159)
             if (!res) {
-                PrintError("InitiateSystemShutdownEx");
-                return false;
-            } else {
-                if (XenstoreRemove("control/shutdown"))
-                    return false;
+                PrintError("InitiateSystemShutdownEx Failed");
             }
         }
         break;
     case XShutdownSuspend:
         if (XenstorePrintf ("control/hibernation-state", "started"))
             return false;
+        XenstoreRemove ("control/shutdown");
         /* Even if we think hibernation is disabled, try it anyway.
            It's not like it can do any harm. */
         res = SetSystemPowerState(FALSE, FALSE);
-        if (XenstoreRemove ("control/shutdown"))
-        { 
-            return false;    
-        }
         if (!res) {
             /* Tell the tools that we've failed. */
             PrintError("SetSystemPowerState");
-            if (XenstorePrintf ("control/hibernation-state", "failed"))
-                return false;
+            XenstorePrintf ("control/hibernation-state", "failed");
         }
         break;
     case XShutdownS3:
         if (XenstorePrintf ("control/s3-state", "started"))
             return false;
-        res = SetSuspendState(FALSE, TRUE, FALSE);
         XenstoreRemove ("control/shutdown");
+        res = SetSuspendState(FALSE, TRUE, FALSE);
         if (!res) {
             PrintError("SetSuspendState");
-            if (XenstorePrintf ("control/s3-state", "failed"))
-                return false;
+            XenstorePrintf ("control/s3-state", "failed");
         }
         break;
     }
