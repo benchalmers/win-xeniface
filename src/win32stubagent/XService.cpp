@@ -453,6 +453,8 @@ static BOOL maybeReboot(void *ctx)
                down instead of EWX_POWEROFF. */
         /* Similar problem on XP. Shutdown/Reboot will hang until the Welcome
         screen screensaver is dismissed by the guest */
+            if (XenstoreRemove("control/shutdown"))
+                return false;
 #pragma warning (disable : 28159)
             res = ExitWindowsEx((type == XShutdownReboot ? 
                                     EWX_REBOOT : 
@@ -468,12 +470,9 @@ static BOOL maybeReboot(void *ctx)
                 PrintError("ExitWindowsEx");
                 return false;
             }
-            else
-            {
-                if (XenstoreRemove("control/shutdown"))
-                    return false;
-            }
         } else {
+            if (XenstoreRemove("control/shutdown"))
+                return false;
 #pragma warning (disable : 28159)
             res = InitiateSystemShutdownEx(
                 NULL,
@@ -488,22 +487,19 @@ static BOOL maybeReboot(void *ctx)
             if (!res) {
                 PrintError("InitiateSystemShutdownEx");
                 return false;
-            } else {
-                if (XenstoreRemove("control/shutdown"))
-                    return false;
             }
         }
         break;
     case XShutdownSuspend:
         if (XenstorePrintf ("control/hibernation-state", "started"))
             return false;
-        /* Even if we think hibernation is disabled, try it anyway.
-           It's not like it can do any harm. */
-        res = SetSystemPowerState(FALSE, FALSE);
         if (XenstoreRemove ("control/shutdown"))
         { 
             return false;    
         }
+        /* Even if we think hibernation is disabled, try it anyway.
+           It's not like it can do any harm. */
+        res = SetSystemPowerState(FALSE, FALSE);
         if (!res) {
             /* Tell the tools that we've failed. */
             PrintError("SetSystemPowerState");
@@ -514,8 +510,8 @@ static BOOL maybeReboot(void *ctx)
     case XShutdownS3:
         if (XenstorePrintf ("control/s3-state", "started"))
             return false;
-        res = SetSuspendState(FALSE, TRUE, FALSE);
         XenstoreRemove ("control/shutdown");
+        res = SetSuspendState(FALSE, TRUE, FALSE);
         if (!res) {
             PrintError("SetSuspendState");
             if (XenstorePrintf ("control/s3-state", "failed"))
