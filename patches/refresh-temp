@@ -1,0 +1,24 @@
+Bottom: 8c70b311feeae24cfe341f3eddf9c51545ca60b8
+Top:    424cd93abc987d8437fa25e712d1f7e568614979
+Author: Ben Chalmers <Ben.Chalmers@citrix.com>
+Date:   2014-10-01 10:44:20 +0100
+
+Refresh of fisrt_patch
+
+---
+
+diff --git a/INSTALL.md b/INSTALL.md
+index 3caad84..8be1e9a 100644
+--- a/INSTALL.md
++++ b/INSTALL.md
+@@ -24,3 +24,10 @@ To install the driver on your target system, copy the contents of the xeniface
+ subdirectory onto the system, then navigate into the copy, to either the x86
+ or x64 subdirectory (whichever is appropriate), and execute the copy of
+ dpinst.exe you find there with Administrator privilege.
++
++
++
++THIS IS SOME EXTRA CODE
++
++
++
