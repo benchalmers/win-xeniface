@@ -1,0 +1,23 @@
+From 563068399a822cba2d5c8296f3534334f47cde86 Mon Sep 17 00:00:00 2001
+From: Ben Chalmers <Ben.Chalmers@citrix.com>
+Date: Mon, 20 Oct 2014 16:03:48 +0100
+Subject: [PATCH] THIS IS A PATCH
+
+---
+ README.md | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/README.md b/README.md
+index 98f47f7..52f396d 100644
+--- a/README.md
++++ b/README.md
+@@ -100,3 +100,6 @@ clean.py
+ 
+ This removes any files not checked into the repository and not covered by
+ the .gitignore file.
++
++
++THIS IS SOME EXTRA TEXT TO GO IN A PATCH
+-- 
+1.8.1.msysgit.1
+
