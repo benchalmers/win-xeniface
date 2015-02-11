@@ -4,6 +4,7 @@ import os, sys
 import xspatchq.buildtool as xsbuildtool
 import xspatchq.symstore as xssymstore
 import xspatchq.msvc as xsmsvc
+import xspatchq.gittool as xsgittool
 import patchqueue
 import checkout
 
@@ -44,6 +45,11 @@ if __name__ == '__main__':
         checkout.clone_apply_patchqueue()
 
     os.chdir(patchqueue.package)
+    if (xsgittool.needsrebase(patchqueue.basetag)):
+        print ("This build needs to be reset to access revision "+patchqueue.basetag)
+        print ("Ensure "+patchqueue.package+" is deleted or renamed, and run rebase if neccessary")
+        sys.exit(1)
+
     os.makedirs(patchqueue.package, exist_ok=True)
     
     xsbuildtool.archive(

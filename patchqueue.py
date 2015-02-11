@@ -28,13 +28,15 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
 # SUCH DAMAGE.
 
+remoterepo =  "git://xenbits.xen.org/pvdrivers/win/xeniface.git"
 baserepo = "git://hg.uk.xensource.com/closed/windows/xenbits/win-xeniface.git"
+baserepopush = "ssh://xenhg@hg.uk.xensource.com/closed/windows/xenbits/win-xeniface.git"
 
 basetag = "807f28eec17cfe160ac34db34cbbd057ed970e6f"
 
 package = "xeniface"
 
-components = ["xeniface"]
+components = ["xeniface","coinst"]
 
 sdv_components = ["xeniface"]
 
