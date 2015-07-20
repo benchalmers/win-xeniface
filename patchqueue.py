@@ -2,7 +2,7 @@ remoterepo =  "git://xenbits.xen.org/pvdrivers/win/xeniface.git"
 baserepo = "git://hg.uk.xensource.com/closed/windows/xenbits/win-xeniface.git"
 baserepopush = "ssh://xenhg@hg.uk.xensource.com/closed/windows/xenbits/win-xeniface.git"
 
-basetag = "31bceb134af626578208f5fc95545d24c3b0932e"
+basetag = "4037a2dfd20632a4bdb9c153f7f35e5bfe4195a2"
 
 package = "xeniface"
 
