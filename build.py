@@ -19,7 +19,7 @@ if __name__ == '__main__':
     xsbuildtool.default_environment('OBJECT_PREFIX','XenProject')
 
     os.environ['MAJOR_VERSION'] = '8'
-    os.environ['MINOR_VERSION'] = '0'
+    os.environ['MINOR_VERSION'] = '1'
     os.environ['MICRO_VERSION'] = '0'
 
     xsbuildtool.default_environment('BUILD_NUMBER',
