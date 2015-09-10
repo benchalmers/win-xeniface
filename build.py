@@ -14,9 +14,10 @@ if __name__ == '__main__':
 
     vs = xsmsvc.get_version()
 
-    xsbuildtool.default_environment('COMPANY_NAME','Xen Project')
-    xsbuildtool.default_environment('PRODUCT_NAME','Xen')
-    xsbuildtool.default_environment('OBJECT_PREFIX','XenProject')
+    xsbuildtool.default_environment('VENDOR_NAME','Citrix')
+    xsbuildtool.default_environment('VENDOR_PREFIX','XS')
+    xsbuildtool.default_environment('PRODUCT_NAME','XenServer')
+    xsbuildtool.default_environment('OBJECT_PREFIX','XenServer')
 
     os.environ['MAJOR_VERSION'] = '8'
     os.environ['MINOR_VERSION'] = '1'
@@ -45,11 +46,6 @@ if __name__ == '__main__':
         checkout.clone_apply_patchqueue()
 
     os.chdir(patchqueue.package)
-    if (xsgittool.needsrebase(patchqueue.basetag)):
-        print ("This build needs to be reset to access revision "+patchqueue.basetag)
-        print ("Ensure "+patchqueue.package+" is deleted or renamed, and run rebase if neccessary")
-        sys.exit(1)
-
     os.makedirs(patchqueue.package, exist_ok=True)
     
     xsbuildtool.archive(
@@ -57,8 +53,8 @@ if __name__ == '__main__':
             xsbuildtool.getfiles(os.getcwd()), 
             tgz = True)
 
-    xsmsvc.build_sln(patchqueue.package, release, 'x86', debug[sys.argv[1]], vs)
-    xsmsvc.build_sln(patchqueue.package, release, 'x64', debug[sys.argv[1]], vs)
+    cmd=['python', '-u', 'build.py', sys.argv[1], sys.argv[2]]
+    xsbuildtool.shell(cmd, None)
 
     xssymstore.add(patchqueue.package, release, 'x86', debug[sys.argv[1]], vs)
     xssymstore.add(patchqueue.package, release, 'x64', debug[sys.argv[1]], vs)
