@@ -1,7 +1,6 @@
 remoterepo =  "git://xenbits.xen.org/pvdrivers/win/xeniface.git"
-#baserepo = "git://hg.uk.xensource.com/closed/windows/xenbits/win-xeniface.git"
-#baserepopush = "ssh://xenhg@hg.uk.xensource.com/closed/windows/xenbits/win-xeniface.git"
-baserepo=remoterepo
+baserepo = "git://hg.uk.xensource.com/closed/windows/xenbits/win-xeniface.git"
+baserepopush = "ssh://xenhg@hg.uk.xensource.com/closed/windows/xenbits/win-xeniface.git"
 
 basetag = "staging-8.1"
 
