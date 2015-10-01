@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+import os
+import sys
+import shutil
 
-import os, sys, shutil
-
-if __name__ == '__main__':
+def main(argv):
     file = os.popen('git status -u --porcelain')
 
     for line in file:
@@ -19,3 +19,6 @@ if __name__ == '__main__':
                 None
                 
     file.close()
+
+if __name__ == '__main__':
+    main(sys.argv)
