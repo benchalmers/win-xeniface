@@ -37,6 +37,8 @@ def main(argv):
     os.environ['VENDOR_NAME'] = 'Citrix'
     os.environ['VENDOR_PREFIX'] = 'XS'
     os.environ['PRODUCT_NAME'] = 'XenServer'
+    os.environ['OBJECT_PREFIX'] = 'XenServer'
+    os.environ['VENDOR_DEVICE_ID'] = 'C000'
 
     cmd = ['python', '-u', 'build.py'] + argv[1:]
 
