@@ -1,3 +1,5 @@
+#! python -u
+
 import sys
 import git
 import repo

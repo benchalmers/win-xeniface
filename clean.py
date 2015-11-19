@@ -1,3 +1,5 @@
+#! python -u
+
 import os
 import sys
 import shutil
