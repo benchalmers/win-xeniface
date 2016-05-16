@@ -1,5 +1,3 @@
-#! python -u
-
 import sys
 import os
 import shutil
@@ -47,6 +45,9 @@ def checkout(path, ref):
     res = shell(cmd, path)
     if res != 0:
         raise Exception("%s returned :" % ' '.join(cmd), res)
+
+    cmd = ['git', 'log', '-1']
+    shell(cmd, path)
 
 def am(path, patch):
     cwd = os.getcwd()
