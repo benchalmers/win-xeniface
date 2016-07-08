@@ -4,10 +4,10 @@ Date: Tue, 12 Jan 2016 14:29:06 +0000
 Subject: [PATCH] CP-15479 : Debrand lite agent
 
 ---
- src/win32stubagent/xen.ico | Bin 25214 -> 18726 bytes
+ src/xenagent/xen.ico | Bin 25214 -> 18726 bytes
  1 file changed, 0 insertions(+), 0 deletions(-)
 
-diff --git a/src/win32stubagent/xen.ico b/src/win32stubagent/xen.ico
+diff --git a/src/xenagent/xen.ico b/src/xenagent/xen.ico
 index 844c993ba290e5055a8900ca8786ea0e031138a6..36209e0ad3ee4788193ca94a9fd81443919dedf8 100644
 GIT binary patch
 literal 18726
