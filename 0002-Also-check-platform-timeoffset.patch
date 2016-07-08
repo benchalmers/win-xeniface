@@ -1,0 +1,33 @@
+From caa113a3adcb4f97dd468641594e4d9e5600ec26 Mon Sep 17 00:00:00 2001
+From: Owen Smith <owen.smith@citrix.com>
+Date: Mon, 4 Jul 2016 16:40:21 +0100
+Subject: [PATCH 2/2] Also check "platform/timeoffset"
+
+Check "platform/timeoffset" if no value is found at
+<vm> + "/rtc/timeoffset"
+
+Signed-off-by: Owen Smith <owen.smith@citrix.com>
+---
+ src/xenagent/service.cpp | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/xenagent/service.cpp b/src/xenagent/service.cpp
+index 54e0b01..7cd95d6 100644
+--- a/src/xenagent/service.cpp
++++ b/src/xenagent/service.cpp
+@@ -346,8 +346,10 @@ void CXenAgent::AdjustXenTimeToUTC(FILETIME* now)
+         return;
+ 
+     std::string offs;
+-    if (!m_device->StoreRead(vm + "/rtc/timeoffset", offs))
+-        return;
++    if (!m_device->StoreRead(vm + "/rtc/timeoffset", offs)) {
++        if (!m_device->StoreRead("platform/timeoffset", offs))
++            return;
++    }
+ 
+     long offset = (long)atoi(offs.c_str());
+ 
+-- 
+1.9.4.msysgit.1
+
