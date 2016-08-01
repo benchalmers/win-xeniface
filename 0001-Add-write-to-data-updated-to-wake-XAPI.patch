@@ -1,47 +1,37 @@
-From 56ebae74e68f8aa18dabfc53d16b017bd12f8ad2 Mon Sep 17 00:00:00 2001
-From: Owen Smith <owen.smith@citrix.com>
-Date: Mon, 4 Jul 2016 16:38:50 +0100
-Subject: [PATCH 1/2] Add write to "data/updated" to wake XAPI
+From 5e55eb207247ebe2ba4674820bdca7377af37b8f Mon Sep 17 00:00:00 2001
+From: Paul Durrant <paul.durrant@citrix.com>
+Date: Mon, 1 Aug 2016 16:27:24 +0100
+Subject: [PATCH 1/2] Add write to data updated to wake XAPI
 
-Signed-off-by: Owen Smith <owen.smith@citrix.com>
+Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
 ---
- src/xenagent/service.cpp | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ src/xenagent/service.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/src/xenagent/service.cpp b/src/xenagent/service.cpp
-index a4d9297..54e0b01 100644
+index 170c2dd..e29ecd9 100644
 --- a/src/xenagent/service.cpp
 +++ b/src/xenagent/service.cpp
-@@ -220,6 +220,9 @@ CXenAgent::~CXenAgent()
-         m_device->SuspendRegister(m_evt_suspend, &m_ctxt_suspend);
- 
-         SetXenTime();
-+
-+        // notify older-XAPI that features have been changed
-+        m_device->StoreWrite("data/updated", "1");
-     }
- }
- 
-@@ -240,6 +243,9 @@ CXenAgent::~CXenAgent()
-             m_device->StoreRemoveWatch(m_ctxt_shutdown);
-         m_ctxt_shutdown = NULL;
- 
-+        // notify older-XAPI that features have been changed
-+        m_device->StoreWrite("data/updated", "1");
-+
-         m_device = NULL;
-     }
- }
-@@ -498,6 +504,9 @@ void CXenAgent::OnSuspend()
-     m_device->StoreWrite("control/feature-shutdown", "1");
- 
-     SetXenTime();
+@@ -231,6 +231,9 @@ void CXenAgent::StartShutdownWatch()
+     m_device->StoreWrite("control/feature-reboot", "1");
+     m_device->StoreWrite("control/feature-s3", "1");
+     m_device->StoreWrite("control/feature-s4", "1");
 +
 +    // notify older-XAPI that features have been changed
 +    m_device->StoreWrite("data/updated", "1");
  }
  
- void CXenAgent::SetServiceStatus(DWORD state, DWORD exit /*= 0*/, DWORD hint /*= 0*/)
+ void CXenAgent::StopShutdownWatch()
+@@ -243,6 +246,9 @@ void CXenAgent::StopShutdownWatch()
+     m_device->StoreRemove("control/feature-s3");
+     m_device->StoreRemove("control/feature-s4");
+ 
++    // notify older-XAPI that features have been changed
++    m_device->StoreWrite("data/updated", "1");
++
+     m_device->StoreRemoveWatch(m_ctxt_shutdown);
+     m_ctxt_shutdown = NULL;
+ }
 -- 
-1.9.4.msysgit.1
+2.1.1
 

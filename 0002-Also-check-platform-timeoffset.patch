@@ -1,21 +1,18 @@
-From caa113a3adcb4f97dd468641594e4d9e5600ec26 Mon Sep 17 00:00:00 2001
-From: Owen Smith <owen.smith@citrix.com>
-Date: Mon, 4 Jul 2016 16:40:21 +0100
-Subject: [PATCH 2/2] Also check "platform/timeoffset"
+From 6492606afc03a7277241f38d452c990c1cfd26d1 Mon Sep 17 00:00:00 2001
+From: Paul Durrant <paul.durrant@citrix.com>
+Date: Mon, 1 Aug 2016 17:34:50 +0100
+Subject: [PATCH 2/2] Also check platform/timeoffset
 
-Check "platform/timeoffset" if no value is found at
-<vm> + "/rtc/timeoffset"
-
-Signed-off-by: Owen Smith <owen.smith@citrix.com>
+Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
 ---
  src/xenagent/service.cpp | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/src/xenagent/service.cpp b/src/xenagent/service.cpp
-index 54e0b01..7cd95d6 100644
+index e29ecd9..a1c4dc1 100644
 --- a/src/xenagent/service.cpp
 +++ b/src/xenagent/service.cpp
-@@ -346,8 +346,10 @@ void CXenAgent::AdjustXenTimeToUTC(FILETIME* now)
+@@ -397,8 +397,10 @@ void CXenAgent::AdjustXenTimeToUTC(FILETIME* now)
          return;
  
      std::string offs;
@@ -29,5 +26,5 @@ index 54e0b01..7cd95d6 100644
      long offset = (long)atoi(offs.c_str());
  
 -- 
-1.9.4.msysgit.1
+2.1.1
 
