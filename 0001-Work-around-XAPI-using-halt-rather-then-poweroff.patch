@@ -1,0 +1,28 @@
+From ddbe7039bf3abf2ef97d91d3a898425426daa44b Mon Sep 17 00:00:00 2001
+From: Paul Durrant <paul.durrant@citrix.com>
+Date: Thu, 4 Aug 2016 11:02:23 +0100
+Subject: [PATCH] Work around XAPI using 'halt' rather then 'poweroff'
+
+XAPI uses the wrong value of control/shutdown to shut down a VM
+
+Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
+---
+ src/xenagent/service.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/xenagent/service.cpp b/src/xenagent/service.cpp
+index 170c2dd..32207c1 100644
+--- a/src/xenagent/service.cpp
++++ b/src/xenagent/service.cpp
+@@ -499,7 +499,7 @@ void CXenAgent::OnShutdown()
+ 
+     CXenAgent::Log("OnShutdown(%ws) = %s\n", m_device->Path(), type.c_str());
+ 
+-    if (type == "poweroff") {
++    if (type == "poweroff" || type == "halt") {
+         EventLog(EVENT_XENUSER_POWEROFF);
+ 
+         m_device->StoreWrite("control/shutdown", "");
+-- 
+2.1.1
+
