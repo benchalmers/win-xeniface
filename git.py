@@ -8,7 +8,7 @@ def shell(cmd, dir):
     print(' '.join(cmd))
     sys.stdout.flush()
 
-    sub = subprocess.Popen(' '.join(cmd), cwd=dir,
+    sub = subprocess.Popen(cmd, cwd=dir,
                            stdout=subprocess.PIPE,
                            stderr=subprocess.STDOUT)
 
