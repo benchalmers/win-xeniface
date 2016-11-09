@@ -1,4 +1,4 @@
-From ddbe7039bf3abf2ef97d91d3a898425426daa44b Mon Sep 17 00:00:00 2001
+From a4dcb20d757d4ce1c1a5b505363bfbfcb2bed11d Mon Sep 17 00:00:00 2001
 From: Paul Durrant <paul.durrant@citrix.com>
 Date: Thu, 4 Aug 2016 11:02:23 +0100
 Subject: [PATCH] Work around XAPI using 'halt' rather then 'poweroff'
@@ -11,12 +11,12 @@ Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/xenagent/service.cpp b/src/xenagent/service.cpp
-index 170c2dd..32207c1 100644
+index 5b49218..2670ac0 100644
 --- a/src/xenagent/service.cpp
 +++ b/src/xenagent/service.cpp
-@@ -499,7 +499,7 @@ void CXenAgent::OnShutdown()
+@@ -513,7 +513,7 @@ bool CXenAgent::CheckShutdown()
  
-     CXenAgent::Log("OnShutdown(%ws) = %s\n", m_device->Path(), type.c_str());
+     CXenAgent::Log("Shutdown(%ws) = %s\n", m_device->Path(), type.c_str());
  
 -    if (type == "poweroff") {
 +    if (type == "poweroff" || type == "halt") {
@@ -24,5 +24,5 @@ index 170c2dd..32207c1 100644
  
          m_device->StoreWrite("control/shutdown", "");
 -- 
-2.1.1
+2.5.3
 
