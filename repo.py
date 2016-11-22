@@ -7,5 +7,5 @@ patches = [
         '0001-Add-write-to-data-updated-to-wake-XAPI.patch',
         '0002-Also-check-platform-timeoffset.patch',
         '0001-Work-around-XAPI-using-halt-rather-then-poweroff.patch',
-        'xeniface-ca-224610.patch'
+        '0001-CA-224610.patch'
         ]
