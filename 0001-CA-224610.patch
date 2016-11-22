@@ -1,0 +1,39 @@
+From feeb5df784ff4e314b2ce16d6312033770afc085 Mon Sep 17 00:00:00 2001
+From: Paul Durrant <paul.durrant@citrix.com>
+Date: Tue, 22 Nov 2016 15:20:32 +0000
+Subject: [PATCH] CA-224610
+
+---
+ src/xeniface/ioctl_store.c | 2 +-
+ src/xeniface/wmi.c         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/xeniface/ioctl_store.c b/src/xeniface/ioctl_store.c
+index c0a1aef..15c690c 100644
+--- a/src/xeniface/ioctl_store.c
++++ b/src/xeniface/ioctl_store.c
+@@ -185,7 +185,7 @@ IoctlStoreWrite(
+     if (!__IsValidStr(Value, InLen - Length))
+         goto fail3;
+ 
+-    status = XENBUS_STORE(Printf, &Fdo->StoreInterface, NULL, NULL, Buffer, Value);
++    status = XENBUS_STORE(Printf, &Fdo->StoreInterface, NULL, NULL, Buffer, "%s", Value);
+     if (!NT_SUCCESS(status))
+         goto fail4;
+ 
+diff --git a/src/xeniface/wmi.c b/src/xeniface/wmi.c
+index 7059cb2..9f94ded 100644
+--- a/src/xeniface/wmi.c
++++ b/src/xeniface/wmi.c
+@@ -1672,7 +1672,7 @@ SessionExecuteSetValue(UCHAR *InBuffer,
+             NULL){
+         goto fail4;
+     }
+-    status = XENBUS_STORE(Printf, &fdoData->StoreInterface, session->transaction, NULL, tmppath, tmpvalue);
++    status = XENBUS_STORE(Printf, &fdoData->StoreInterface, session->transaction, NULL, tmppath, "%s", tmpvalue);
+     Trace(" Write %s to %s (%p)\n", tmpvalue, tmppath, status);
+     UnlockSessions(fdoData);
+ 
+-- 
+2.5.3
+
