@@ -1,0 +1,29 @@
+From c132f6a67bebd1ab32319ef24dc6277ca42954ea Mon Sep 17 00:00:00 2001
+From: Ben Chalmers <Ben.Chalmers@citrix.com>
+Date: Wed, 29 Mar 2017 13:32:22 +0100
+Subject: [PATCH] Avoid repeatedly acting as if returning from suspend
+
+Setting m_count to equal count means we will
+fall out of CheckSuspend early, if initiated by a
+timeout when a new suspend has not occurred
+
+Signed-Off-By : Ben.Chalmers@citrix.com
+---
+ src/xenagent/service.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/xenagent/service.cpp b/src/xenagent/service.cpp
+index 2670ac0..65ee286 100644
+--- a/src/xenagent/service.cpp
++++ b/src/xenagent/service.cpp
+@@ -584,6 +584,7 @@ void CXenAgent::CheckSuspend()
+     StopShutdownWatch();
+     StartShutdownWatch();
+     SetXenTime();
++    m_count = count;
+ }
+ 
+ void CXenAgent::SetServiceStatus(DWORD state, DWORD exit /*= 0*/, DWORD hint /*= 0*/)
+-- 
+2.7.0.windows.1
+
