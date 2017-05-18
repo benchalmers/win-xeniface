@@ -1,0 +1,25 @@
+From 00acb4fd6eb2c33a2082b6784b897703c9f3482f Mon Sep 17 00:00:00 2001
+From: Ben Chalmers <Ben.Chalmers@citrix.com>
+Date: Thu, 18 May 2017 16:26:26 +0100
+Subject: [PATCH] Up version number to 8.2.1.x
+
+---
+ build.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/build.py b/build.py
+index 1d587fa..2492dda 100755
+--- a/build.py
++++ b/build.py
+@@ -434,7 +434,7 @@ if __name__ == '__main__':
+ 
+     os.environ['MAJOR_VERSION'] = '8'
+     os.environ['MINOR_VERSION'] = '2'
+-    os.environ['MICRO_VERSION'] = '0'
++    os.environ['MICRO_VERSION'] = '1'
+ 
+     if 'BUILD_NUMBER' not in os.environ.keys():
+         os.environ['BUILD_NUMBER'] = next_build_number()
+-- 
+2.7.0.windows.1
+
