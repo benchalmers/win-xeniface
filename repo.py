@@ -10,4 +10,5 @@ patches = [
         '0001-CA-224610.patch',
         'avoid-repeatedly-acting-as-if-returning-from-suspend.patch',
         'up-version-number-to-8.2.1.x.patch'
+        '0001-Manually-reset-suspend-and-shutdown-events.patch',
         ]

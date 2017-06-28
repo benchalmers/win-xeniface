@@ -1,0 +1,62 @@
+From 648d21357a5e78f9f0b94668d60b4406c31247d3 Mon Sep 17 00:00:00 2001
+From: Ben Chalmers <Ben.Chalmers@citrix.com>
+Date: Wed, 28 Jun 2017 11:13:30 +0100
+Subject: [PATCH] Manually reset suspend and shutdown events
+
+Auto-reset shutdown events were getting lost, explicitly
+resetting them avoids this.
+
+Also:
+Fix the invocation of CreateEvent methods
+Remove the timeout which was added to workaround the events
+getting lost
+---
+ src/xenagent/service.cpp | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/src/xenagent/service.cpp b/src/xenagent/service.cpp
+index 2670ac0..3128281 100644
+--- a/src/xenagent/service.cpp
++++ b/src/xenagent/service.cpp
+@@ -199,9 +199,9 @@ CXenAgent::CXenAgent() : m_handle(NULL), m_evtlog(NULL),
+     m_status.dwCheckPoint         = 0;
+     m_status.dwWaitHint           = 0;
+ 
+-    m_svc_stop = CreateEvent(FALSE, NULL, NULL, FALSE);
+-    m_evt_shutdown = CreateEvent(FALSE, NULL, NULL, FALSE);
+-    m_evt_suspend = CreateEvent(FALSE, NULL, NULL, FALSE);
++    m_svc_stop = CreateEvent(NULL, TRUE, FALSE, NULL);
++    m_evt_shutdown = CreateEvent(NULL, TRUE, FALSE, NULL);
++    m_evt_suspend = CreateEvent(NULL, TRUE, FALSE, NULL);
+     m_count = 0;
+ 
+     InitializeCriticalSection(&m_crit);
+@@ -322,21 +322,23 @@ void CXenAgent::OnPowerEvent(DWORD evt, LPVOID data)
+ bool CXenAgent::ServiceMainLoop()
+ {
+     HANDLE  events[3] = { m_svc_stop, m_evt_shutdown, m_evt_suspend };
+-    DWORD   wait = WaitForMultipleObjectsEx(3, events, FALSE, 60000, TRUE);
++    DWORD   wait = WaitForMultipleObjectsEx(3, events, FALSE, INFINITE, TRUE);
+ 
+     switch (wait) {
+     case WAIT_OBJECT_0:
++        ResetEvent(m_svc_stop);
+         return false; // exit loop
+ 
+     case WAIT_OBJECT_0+1:
++        ResetEvent(m_evt_shutdown);
+         return !CheckShutdown();
+ 
+     case WAIT_OBJECT_0+2:
++        ResetEvent(m_evt_suspend);
+         CheckSuspend();
+         return true; // continue loop
+ 
+     case WAIT_IO_COMPLETION:
+-    case WAIT_TIMEOUT:
+         CheckSuspend();
+         return !CheckShutdown();
+ 
+-- 
+2.7.0.windows.1
+
