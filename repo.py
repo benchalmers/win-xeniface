@@ -8,7 +8,6 @@ patches = [
         '0002-Also-check-platform-timeoffset.patch',
         '0001-Work-around-XAPI-using-halt-rather-then-poweroff.patch',
         '0001-CA-224610.patch',
-        'avoid-repeatedly-acting-as-if-returning-from-suspend.patch',
-        'up-version-number-to-8.2.1.x.patch',
         '0001-Manually-reset-suspend-and-shutdown-events.patch',
+        '0001-Advertise-feature-shutdown-for-Dundee.patch',
         ]

@@ -1,0 +1,24 @@
+From 1836c5debe8f0c7c728a902f72b1fc55697fe803 Mon Sep 17 00:00:00 2001
+From: Ben Chalmers <Ben.Chalmers@citrix.com>
+Date: Tue, 10 Oct 2017 13:43:58 +0100
+Subject: [PATCH] Advertise feature-shutdown for Dundee
+
+---
+ src/xenagent/service.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/xenagent/service.cpp b/src/xenagent/service.cpp
+index b7faf62..e9241b5 100644
+--- a/src/xenagent/service.cpp
++++ b/src/xenagent/service.cpp
+@@ -228,6 +228,7 @@ void CXenAgent::StartShutdownWatch()
+ 
+     m_device->StoreAddWatch("control/shutdown", m_evt_shutdown, &m_ctxt_shutdown);
+ 
++    m_device->StoreWrite("control/feature-shutdown", "1");
+     m_device->StoreWrite("control/feature-poweroff", "1");
+     m_device->StoreWrite("control/feature-reboot", "1");
+     m_device->StoreWrite("control/feature-s3", "1");
+-- 
+2.10.1.windows.1
+
